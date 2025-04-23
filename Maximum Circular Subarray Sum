@@ -1,0 +1,42 @@
+/*
+Problem Statement:
+Given an array of integers arr[] in a circular fashion. Find the maximum subarray sum that we can get if we assume the array to be circular.
+*/
+class Solution {
+  public:
+    // arr: input array
+    // Function to find maximum circular subarray sum.
+    int Kadane_max(vector<int> & arr, int n){
+        int max_sum = INT_MIN;
+        int sum = 0;
+        for(int i=0; i<arr.size(); i++){
+            sum += arr[i];
+            max_sum = max(max_sum, sum);
+            if(sum < 0)
+               sum = 0;
+        }
+        return max_sum;
+    }
+    int Kadane_min(vector<int> & arr, int n){
+        int min_sum = INT_MAX;
+        int sum = 0;
+        for(int i=0; i<arr.size(); i++){
+            sum += arr[i];
+            min_sum = min(min_sum, sum);
+            if(sum > 0)
+              sum = 0;
+        }
+        return min_sum;
+    }
+    int circularSubarraySum(vector<int> &arr) {
+       int n = arr.size();
+       int sum = accumulate(begin(arr), end(arr) , 0);
+       int min_sum = Kadane_min(arr , n);
+       int max_sum = Kadane_max(arr , n);
+       int cir_sum = sum - min_sum;
+       if(max_sum > 0)
+          return max(max_sum , cir_sum);
+       return max_sum;
+      
+    }
+};
