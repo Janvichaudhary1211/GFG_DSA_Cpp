@@ -1,0 +1,37 @@
+/*
+Problem Statement: Given a string s, the objective is to convert it into integer format without utilizing any built-in functions. 
+Refer the below steps to know about atoi() function.
+
+Cases for atoi() conversion:
+
+1. Skip any leading whitespaces.
+2. Check for a sign (‘+’ or ‘-‘), default to positive if no sign is present.
+3. Read the integer by ignoring leading zeros until a non-digit character is encountered or end of the string is reached. If no digits are present, return 0.
+4. If the integer is greater than 2e31 – 1, then return 2e31 – 1 and if the integer is smaller than -2e31, then return -2e31.
+*/
+
+class Solution {
+  public:
+    int myAtoi(char *s) {
+        int res=0;
+        int idx=0;
+        int sign =1;
+        int n = strlen(s);
+        while( idx < strlen(s) && s[idx] == ' ')
+          idx +=1;
+        if(idx < n && (s[idx] =='-' || s[idx] =='+')){
+            if(s[idx]=='-')
+              sign = -1;
+             idx += 1;
+        } 
+        while( idx <n && '0' <= s[idx] && s[idx] <= '9'){
+            int digit = s[idx]-'0';
+          if( res > (INT_MAX - digit)/10)
+             return (sign ==1 )? INT_MAX: INT_MIN;
+             
+          res = res*10+digit;
+          idx++;
+    }
+    return res*sign;
+    }
+};
