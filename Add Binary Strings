@@ -1,0 +1,24 @@
+/*
+Problem Statement: Given two binary strings s1 and s2 consisting of only 0s and 1s. Find the resultant string after adding the two Binary Strings.
+Note: The input strings may contain leading zeros but the output string should not have any leading zeros.
+*/
+class Solution {
+  public:
+    string addBinary(string& s1, string& s2) {
+       int n = s1.length()-1;
+       int m = s2.length()-1;
+       string result="";
+       int carry = 0;
+       while( n>=0 || m>=0|| carry){
+           int bit1 = (n>=0) ? s1[n--]-'0' : 0;
+           int bit2 = (m>=0)? s2 [m--]-'0': 0;
+           int total = bit1 + bit2 + carry;
+           carry = total/2;
+           result += (total%2) +'0';
+       }
+       reverse(result.begin() , result.end());
+       result.erase(0 , result.find_first_not_of('0'));
+       return result.empty() ? "0" : result;
+        
+    }
+};
