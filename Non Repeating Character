@@ -1,0 +1,26 @@
+/*
+Problem Statement : Given a string s consisting of lowercase English Letters. Return the first non-repeating character in s.
+If there is no non-repeating character, return '$'.
+Note: When you return '$' driver code will output -1.
+*/
+class Solution {
+  public:
+    char nonRepeatingChar(string &s) {
+      int visited[26];
+      fill_n(visited, 26, -1);
+      for(int i=0; i< s.length(); i++){
+          int idx = s[i] - 'a';
+          if(visited[idx] == -1){
+              visited[idx] = i;
+          }else{
+              visited[idx] = -2;
+          }
+      }
+      int minimum = INT_MAX; 
+      for(int i=0; i<26; i++){
+          if(visited[i] >= 0)
+             minimum = min(minimum, visited[i]);
+      }
+        return minimum == INT_MAX ? '$' : s[minimum];
+    }
+};
