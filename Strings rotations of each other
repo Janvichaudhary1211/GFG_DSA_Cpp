@@ -1,0 +1,53 @@
+/*
+Problem Statement : You are given two strings of equal lengths, s1 and s2. The task is to check if s2 is a rotated version of the string s1.
+
+Note: The characters in the strings are in lowercase.
+*/
+class Solution {
+  public:
+    vector<int> computeLPS(const string & pattern){
+        int n= pattern.size();
+        vector<int> lps(n,0);
+        int len =0;
+        for(int i=1; i<n; ){
+            if(pattern[i] == pattern[len]){
+                lps[i++] = ++len;
+            }else{
+                if(len !=0){
+                     len = lps[len -1];
+    }else{
+        lps[i++] = 0;
+    }
+    }
+        }
+        return lps;
+    }
+    bool isSubstringKMP( const string &text, const string &pattern){
+        int n= text.length();
+        int m = pattern.length();
+        vector<int> lps =computeLPS(pattern);
+        int i=0;
+        int j=0;
+        while(i<n){
+            if(text[i] == pattern[j]){
+                i++;
+                j++; 
+                if(j==m)
+                  return true;
+            }else{
+                if(j != 0){
+                    j = lps[j-1];
+                }else{
+                    i++;
+                }
+            }
+        }return false;
+    }
+    bool areRotations(string &s1, string &s2) {
+       if(s1.length() != s2.length())
+         return false;
+        string combined = s1+s1;
+        return isSubstringKMP(combined, s2);
+        
+    }
+};
