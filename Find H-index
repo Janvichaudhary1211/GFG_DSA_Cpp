@@ -1,0 +1,26 @@
+/*
+Problem Statement: Given an array arr[] containing only 0s, 1s, and 2s. Sort the array in ascending order.
+
+You need to solve this problem without utilizing the built-in sort function.
+*/
+class Solution {
+  public:
+    // Function to find hIndex
+    int hIndex(vector<int>& citations) {
+       int n = citations.size();
+       vector<int> frequency(n+1,0);
+       for(int i=0; i<n; i++){
+           if(citations[i] >= n)
+               frequency[n]++;
+           else
+               frequency[citations[i]]++;
+       }
+      int count = 0;
+      for(int i=n; i>=0; --i){
+          count += frequency[i];
+          if(count >= i)
+            return i;
+      }
+      return 0;
+    }
+};
