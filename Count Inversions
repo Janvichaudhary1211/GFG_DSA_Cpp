@@ -1,0 +1,62 @@
+/*
+Problem Statement: Given an array of integers arr[]. Find the Inversion Count in the array.
+Two elements arr[i] and arr[j] form an inversion if arr[i] > arr[j] and i < j.
+
+Inversion Count: For an array, inversion count indicates how far (or close) the array is from being sorted. If the array is already sorted then the inversion count is 0.
+If an array is sorted in the reverse order then the inversion count is the maximum. 
+*/
+class Solution {
+  public:
+    int merge(vector<int> &arr, int s, int e){
+        int count = 0;
+        int mid = s+(e-s)/2;
+        int length1 = mid - s + 1;
+        int length2 = e - mid;
+        int * first = new int[length1];
+        int * second = new int[length2];
+        int k = s;
+        for(int i=0; i<length1; i++){
+            first[i] = arr[k++];
+        }
+        k = mid + 1;
+        for(int i=0; i<length2; i++){
+            second[i] = arr[k++];
+        }
+        int idx1 = 0;
+        int idx2 = 0;
+        k =s;
+        while(idx1 < length1 && idx2 < length2){
+            if(first[idx1] <= second[idx2]){
+                arr[k++] = first[idx1++];
+            }else{
+                count += length1 - idx1;
+                arr[k++] = second[idx2++];
+            }
+        }
+        while(idx1 < length1){
+            arr[k++] = first[idx1++];
+        }
+        while( idx2 < length2){
+            arr[k++] = second[idx2++];
+        }
+        delete []first;
+        delete[] second;
+        return count;
+    }
+    int solve(vector<int> &arr, int s, int e){
+        int mid = s+(e-s)/2;
+        int count = 0;
+        if(s>= e)
+          return count;
+        count  += solve(arr, s, mid);
+        count += solve(arr, mid+1, e);
+        count += merge(arr, s, e);
+        return count;
+    }
+    // Function to count inversions in the array.
+    int inversionCount(vector<int> &arr) {
+       int n = arr.size();
+       return solve(arr,0,n-1);
+        
+    }
+};
